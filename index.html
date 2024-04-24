@@ -197,20 +197,18 @@
 
   work() {
     if (this.ants.length === 0) {
-      return "No ants here. Did you work them to death?";
+        return "No ants here. Did you work them to death?";
     }
-    let antsToRemove = [];
-    for (let i = 0; i < this.ants.length; i++) {
-      this.ants[i].health -= 20;
-      if (this.ants[i].health <= 0) {
-        antsToRemove.push(i);
-      }
-    }
-    for (let i = antsToRemove.length - 1; i >= 0; i--) {
-      this.ants.splice(antsToRemove[i], 1);
-    }
-    return `${this.ants.length} ants starting work!`;
-  }
+    let startingAntCount = this.ants.length;
+
+    // All ants work (health decreases)
+    this.ants = this.ants.map(ant => ({ ...ant, health: ant.health - 20 }));
+
+    // Remove ants with health <= 0
+    this.ants = this.ants.filter(ant => ant.health > 0);
+
+    return `${startingAntCount} ants starting work!`;
+}
   
 
   feed(name) {
